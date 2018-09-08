@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ChartJS - Line</title>
+    
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    
+    	<!-- javascript -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/Chart.min.js"></script>
+    <script src="js/select2.min.js"></script>
+    <script src="js/dropdown.select2.js"></script>
+
+    
+</head>
+<body>
+
+	<div class="wrapper">
+	      <h1>Teploty</h1>
+      <h2>Poslednych 5 zaznamov pre senzor: </h2>
+      <p id="nazov"></p>
+      </div>
+
+<!--  
+
+!!!!SEM TREBA DOPISAT DROPDOWN LIST!!!
+
+PRVA VEC JE TESTNUT PREDVYTVORENY A POSUVAT TO DOLU DO temperature-pg.js
+
+DRUHA VEC JE TAHAT DROPDOWN LIST Z DB! Zatial rozmyslam na AJAX + php json. Skusit pozriet nejaky JS? SELECT2?
+
+ -->
+ 
+ <div class="wrapper">
+<select id='selSensor' style='width: 200px'>
+ <option value='0'>- Search sensor -</option>
+</select>
+</div>
+<input type="hidden" id="selSensor" />
+<p>Selected IDs: <span id="selectedID"></span></p>
+<p>Selected Options: <span id="selectedText"></span></p>
+
+
+
+
+    <div class="wrapper">  
+		<canvas id="line-chartcanvas"></canvas>
+	</div>
+
+
+<input type="hidden" id="sensID" value="1" />
+
+    <script src="js/temperature-pg.js" ></script>
+
+
+
+    
+</body>
+</html>
