@@ -13,5 +13,5 @@ for sens_file in sorted(glob.glob('/sys/devices/w1_bus_master1/28*/w1_slave')):
     print('Raw Temperature: ')
     print(raw_temperature)
     print('Temperature output in C')
-    raw_temperature.insert(2,'.')
+    raw_temperature.insert(2, '.')
     print(''.join(raw_temperature))
