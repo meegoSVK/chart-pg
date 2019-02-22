@@ -54,13 +54,24 @@ for sens_file in sorted(glob.glob('/sys/devices/w1_bus_master1/28*/w1_slave')):
 # precitanie stavu cidla
     file_open = file.read()
 # Precitanie piatich ciselnych znakov do premennej - znova pouzite [0] kvoli konverzii na string
-#  TO DO  na tomto riadku, treba vychitat zapornu hodnotu!.
-    raw_temperature = re.findall('t=([0-9]{5})', file_open)[0]
+#  TO DO  na tomto riadku, treba vychitat zapornu hodnotu! - zaporna hodnota vychytana pomoocou [\+\-]?
+#  TO DO Este treba vychytat presnu 0. Cidlo vracia v pripade 0°C hodnotu 0 a nie 00000.
+    raw_temperature = re.findall('t=([\+\-]?.*)', file_open)[0]
 # uzatvorenie subou, pretoze inak si ho python drzi otvoreny v procese a moze blokovat
     file.close()
-# Vypis zisteni - na poslednom riadku sa pouziva [:2] a [2:] na vlozenie bodky do printu
-# - bude to nutne na integraciu do DB.
-    temperature = raw_temperature[:2] + '.' + raw_temperature[2:]
+# Vypis zisteni a insert
+# Osetrenie zapornej hodnoty, pretoze, ak ma zapornu hodnotu ma o poziciu viacej a udava to zle.
+# Nutnost konvertovat na int(), pretoze findall vracia list, ktory konvertujem do string
+# TO DO - dost krkolomne ist z listu do stringu a do integeru, treba pozriet, ako to odfiltrovat rovno do numerickej hodnoty
+    if int(raw_temperature) >0 and len(raw_temperature) == 5:
+        temperature = raw_temperature[:2] + '.' + raw_temperature[2:]
+    elif int(raw_temperature)<0 and len(raw_temperature) == 6:
+        temperature = raw_temperature[:3] + '.' + raw_temperature[3:]
+    elif int(raw_temperature) == 0:
+        temperature = '00.000'
+    else:
+        print('Chybni vstup na cidle!')
+        continue
     print(file_open)
     print('Trosku iny pokus o vystup')
     print('Sensor ID: ' + sensid)
